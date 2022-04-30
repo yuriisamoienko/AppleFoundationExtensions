@@ -94,11 +94,6 @@ public extension String {
         return String(self.dropFirst(prefix.count))
     }
     
-    func pixelSizeWith(font: UIFont) -> CGSize {
-        let fontAttributes = [NSAttributedString.Key.font: font]
-        return self.size(withAttributes: fontAttributes)
-    }
-    
     func matchesRegex(_ regex: String) -> Bool {
         let result = self.range(of: regex, options: .regularExpression, range: nil, locale: nil) != nil
         return result

@@ -11,7 +11,7 @@ public extension Character {
     
     func isEmoji() -> Bool {
         for scalar in unicodeScalars {
-            if #available(iOS 10.2, *) {
+            if #available(iOS 10.2, tvOS 10.1, *) {
                 if scalar.properties.isEmoji == true { // introduced in Swift 5.0
                     return true
                 }

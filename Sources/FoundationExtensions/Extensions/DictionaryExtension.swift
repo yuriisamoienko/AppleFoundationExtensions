@@ -80,41 +80,38 @@ public extension Dictionary {
 
     //usage double(forKey key: Key?, errorCode: Int)
     //errorCode is from scope of fatalMistake(..)
-    func double(forKey: String, errorCode: Int, file: String = #file, line: UInt = #line, function: String = #function) -> Double? {
+    func double(forKey: String, errorCode: Int, file: String = #file, line: UInt = #line, function: String = #function) throws -> Double {
         guard let key = forKey as? Key else {
             fatalErrorEx("can't get key as Dictionary.Key type")
         }
         guard let result = double(forKey: key) else {
             let message = generateErrorMessage(forKey: forKey, type: "Double")
-            injects.crashReporter.nonFatalError(code: errorCode, message: message)
-            return nil
+            throw NSError(code: errorCode, message: message)
         }
         return result
     }
 
     //usage int(forKey key: Key?, errorCode: Int)
     //errorCode is from scope of fatalMistake(..)
-    func int(forKey: String, errorCode: Int, file: String = #file, line: UInt = #line, function: String = #function) -> Int? {
+    func int(forKey: String, errorCode: Int, file: String = #file, line: UInt = #line, function: String = #function) throws -> Int {
         guard let key = forKey as? Key else {
             fatalErrorEx("can't get key as Dictionary.Key type")
         }
         guard let result = int(forKey: key) else {
             let message = generateErrorMessage(forKey: forKey, type: "Double")
-            injects.crashReporter.nonFatalError(code: errorCode, message: message)
-            return nil
+            throw NSError(code: errorCode, message: message)
         }
         return result
     }
 
     //usage string(forKey key: Key?, errorCode: Int)
     //errorCode is from scope of fatalMistake(..)
-    func string(forKey: String, errorCode: Int, file: String = #file, line: UInt = #line, function: String = #function) -> String? {
+    func string(forKey: String, errorCode: Int, file: String = #file, line: UInt = #line, function: String = #function) throws -> String {
         guard let key = forKey as? Key else {
             fatalErrorEx("can't get key as Dictionary.Key type")
         }
         guard let value = self[key] else {
-            //TODO
-            return nil
+            throw NSError(message: "key '\(key) not found")
         }
         var result: String?
         if let str = value as? String {
@@ -128,8 +125,7 @@ public extension Dictionary {
         }
         guard let output = result else {
             let message = generateErrorMessage(forKey: forKey, type: "Double")
-            injects.crashReporter.nonFatalError(code: errorCode, message: message)
-            return nil
+            throw NSError(code: errorCode, message: message)
         }
         return output
     }
@@ -202,9 +198,3 @@ public extension Dictionary where Value: Equatable {
     }
     
 }
-
-//any better idea how to inject in protocol extensions??
-fileprivate class InjectsContainer {
-    @Inject public var crashReporter: CrashReporterProtocol
-}
-fileprivate var injects = InjectsContainer()

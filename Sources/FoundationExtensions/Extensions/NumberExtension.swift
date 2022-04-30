@@ -23,39 +23,6 @@ public extension Int {
 
 }
 
-public extension CGFloat {
-    func animate(to newValue: CGFloat,
-                          duration: CGFloat,
-                          onProgress: @escaping (CGFloat) -> Void,
-                          onComplete: (() -> Void)? = nil) {
-        let fps: Double = 60
-        var value = self
-        let compareBigger = newValue > self
-        let step = (newValue - self)/CGFloat(fps)/duration
-        Timer.scheduledTimer(withTimeInterval: 1/fps, repeats: true) { timer in
-            value += step
-            if compareBigger == true {
-                if value > newValue {
-                    value = newValue
-                }
-            } else {
-                if value < newValue {
-                    value = newValue
-                }
-            }
-            onProgress(value)
-            if value.isEqual(to: newValue) == true {
-                timer.invalidate()
-                onComplete?()
-            }
-        }
-    }
-
-    static func random() -> CGFloat {
-        return CGFloat(arc4random()) / CGFloat(UInt32.max)
-    }
-}
-
 public extension Double {
     
     func stringPrecised(minimumPrecision: Int = 0, maximumPrecision: Int = 2) -> String {
