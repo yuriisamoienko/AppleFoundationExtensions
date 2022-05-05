@@ -42,44 +42,6 @@ extension CError: LocalizedError {
     }
 }
 
-@objc
-public extension NSError {
-    
-    var message: String? {
-        get {
-            let result = userInfo[NSLocalizedDescriptionKey] as? String
-            return result
-        }
-    }
-    
-    convenience init(code: Int = 0, message: String) {
-        self.init(domain: "", code: code, userInfo: [NSLocalizedDescriptionKey: message])
-    }
-    
-    convenience init(message: String) {
-        self.init(code: 0, message: message)
-    }
-    
-    static func create(message: String) -> NSError {
-        return NSError(message: message)
-    }
-    static func create(code: Int, message: String) -> NSError {
-        return NSError(code: code, message: message)
-    }
-}
-
-public extension NSError {
-    
-    convenience init(code: Int, userInfo: [String: Any]? = nil) {
-        self.init(domain: "", code: 0, userInfo: userInfo)
-    }
-    
-    convenience init(userInfo: [String: Any]? = nil) {
-        self.init(code: 0, userInfo: userInfo)
-    }
-
-}
-
 
 /*
 public enum CErrorCode: UInt {

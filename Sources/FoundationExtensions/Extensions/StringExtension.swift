@@ -70,7 +70,7 @@ public extension String {
         self = self.capitalizingFirstLetter()
     }
     
-    func substrings(byRegex regex: String) -> [String] {
+    func substrings(byRegex regex: String) throws -> [String] {
         let text = self
         do {
             let regex = try NSRegularExpression(pattern: regex)
@@ -81,12 +81,15 @@ public extension String {
             }
         } catch let error {
             print("invalid regex: \(error.localizedDescription)")
-            return []
+            throw error
         }
     }
     
-    func substring(byRegex regex: String) -> String? {
-        return substrings(byRegex: regex).first
+    func substring(byRegex regex: String) throws -> String {
+        guard let result = try substrings(byRegex: regex).first else {
+            throw NSError(logMessage: "no substring found by regex: \(regex)")
+        }
+        return result
     }
     
     func removingPrefix(_ prefix: String) -> String {
@@ -124,8 +127,10 @@ public extension String {
     
     func withRemoving(byRegex regex: String) -> String {
         var result = self
-        for item in self.substrings(byRegex: regex) {
-            result = result.replacingOccurrences(of: item, with: "")
+        if let substrings = try? self.substrings(byRegex: regex) {
+            for item in substrings {
+                result = result.replacingOccurrences(of: item, with: "")
+            }
         }
         return result
     }

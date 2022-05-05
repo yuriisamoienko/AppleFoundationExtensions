@@ -34,9 +34,9 @@ public extension NSString {
         return str.matchesRegex(regex)
     }
     
-    func substringByRegex(_ regex: String) -> String? {
+    func substringByRegex(_ regex: String) throws -> String {
         let str = self as String
-        let result = str.substring(byRegex: regex)
+        let result = try str.substring(byRegex: regex)
         return result
     }
     
