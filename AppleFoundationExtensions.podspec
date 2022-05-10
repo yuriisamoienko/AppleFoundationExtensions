@@ -9,6 +9,6 @@ Pod::Spec.new do |spec|
   spec.source_files = 'Sources/*'
   spec.framework    = 'FoundationExtensions'
 
-  s.ios.deployment_target = '10.0'
-  s.swift_version = '5.0'
+  spec.ios.deployment_target = '10.0'
+  spec.swift_version = '5.6'
 end
