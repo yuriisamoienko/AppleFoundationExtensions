@@ -1,5 +1,5 @@
 Pod::Spec.new do |spec|
-  spec.name         = 'FoundationExtensions'
+  spec.name         = 'AppleFoundationExtensions'
   spec.version      = '1.0'
   spec.license      = { :type => 'MIT' }
   spec.homepage     = 'https://github.com/yuriisamoienko/AppleFoundationExtensions'
